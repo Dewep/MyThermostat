@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>My thermostat</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,minimum-scale=1,width=device-width,height=device-height,viewport-fit=cover">
+    <link href="vendors/spectre.min.css" media="all" rel="stylesheet" />
+    <link href="vendors/spectre-exp.min.css" media="all" rel="stylesheet" />
+    <link href="vendors/spectre-icons.min.css" media="all" rel="stylesheet" />
+    <link id="styles" href="styles.css?191207" media="all" rel="stylesheet" />
+    <script src="vendors/vue.min.js"></script>
+    <script src="vendors/moment.min.js"></script>
+  </head>
+  <body class="initializing bg-secondary">
+    <div id="app" class="flex-view flex-column">
+      <template v-if="!passwordSet || error">
+        <div class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="text-center">
+              Aurélien Maigret Thermostat
+            </div>
+          </div>
+        </div>
+        <div class="flex-extensible flex-center">
+          <p v-if="error" class="toast toast-error m-2">{{ error }}</p>
+          <div v-else class="main-commands">
+            <input v-model="password" class="form-input input-inline input-lg text-center m-2" type="password" placeholder="Secret access">
+          </div>
+        </div>
+        <div v-if="!error" class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="main-controls">
+              <button :class="{ disabled: !password }" class="btn btn-primary btn-lg" @click.prevent="refresh">
+                CONNECT
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-else-if="updatePrograms">
+        <div class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="flex-view">
+              <time class="text-left flex-extensible">{{ setTemperatureFormatted }}°</time>
+              <time class="text-center flex-extensible"><b>{{ wantedTemperatureFormatted }}°</b></time>
+              <time class="text-right flex-extensible">{{ currentTime }}</time>
+            </div>
+          </div>
+        </div>
+        <div class="flex-extensible p-2">
+          <p class="toast">Click on an program to remove it.</p>
+          <div v-for="(program, $index) in programs" :key="'program-' + $index" class="btn-group btn-group-block mb-2">
+            <button class="btn btn-primary" @click.prevent="removeProgram($index)">
+              {{ program.hours < 10 ? '0' : '' }}{{ program.hours }}h{{ program.minutes < 10 ? '0' : '' }}{{ program.minutes }}
+              <small class="mx-2"> <i class="icon icon-forward"></i> </small>
+              <b>{{ (program.temperature / 10).toFixed(1) }}°</b>
+            </button>
+          </div>
+        </div>
+        <div class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="future mt-2">
+              <span class="label bg-dark px-2" @click.prevent="updateManualUntil">Next change: {{ (nextTemperature / 10).toFixed(1) }}° {{ nextDateFormatted }}</span>
+            </div>
+            <div class="main-controls">
+              <button class="btn btn-primary btn-lg" @click.prevent="addNewProgram">
+                ADD A NEW PROGRAM
+              </button>
+            </div>
+            <div class="mb-2">
+              <a @click.prevent="updatePrograms = false">Back to controls</a>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="flex-view">
+              <time class="text-left flex-extensible" @click.prevent="editSetTemperature">{{ setTemperatureFormatted }}°</time>
+              <time class="text-right flex-extensible">{{ currentTime }}</time>
+            </div>
+          </div>
+        </div>
+        <div class="flex-extensible flex-center">
+          <div class="main-commands">
+            <a @click.prevent="increase()">
+              <i class="icon icon-arrow-up"></i>
+            </a>
+            <b>{{ wantedTemperatureFormatted }}°</b>
+            <a @click.prevent="decrease()">
+              <i class="icon icon-arrow-down"></i>
+            </a>
+          </div>
+        </div>
+        <div class="flex-fixed">
+          <div class="s-rounded text-dark bg-gray m-2 py-1 px-2">
+            <div class="future mt-2">
+              <span class="label bg-dark px-2" @click.prevent="updateManualUntil">Next change: {{ (nextTemperature / 10).toFixed(1) }}° {{ nextDateFormatted }}</span>
+            </div>
+            <div class="main-controls">
+              <button :class="{ 'btn-primary': !manualUntil }" class="btn btn-lg" @click.prevent="setAuto">
+                AUTO
+              </button>
+              <button :class="{ 'btn-primary': manualUntil }" class="btn btn-lg" @click.prevent="setManual">
+                MANUAL
+              </button>
+            </div>
+            <div class="mb-2">
+              <a @click.prevent="updatePrograms = true">Programmations</a>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>

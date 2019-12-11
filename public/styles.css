@@ -1,0 +1,101 @@
+html {
+  font-size: 20px;
+  text-align: center;
+}
+
+html, body, #app {
+  min-width: 320px;
+  height: 100%;
+}
+
+body, body #app .editor, body #app .tl {
+  transition: .5s linear all;
+}
+body #app {
+  opacity: 1;
+}
+body.initializing {
+  background: #303742;
+}
+body.initializing #app .editor, body.initializing #app .tl {
+  opacity: 0;
+}
+body.initializing .hero input {
+  display: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+.flex-view {
+  display: flex;
+  height: 100%;
+}
+
+.flex-view.flex-column {
+  flex-direction: column;
+}
+
+.flex-view.flex-column > .flex-extensible,
+.flex-view.flex-column > .flex-fixed {
+  height: auto;
+  width: 100%;
+}
+
+.flex-view > .flex-fixed {
+  flex: 0 0 auto;
+  height: 100%;
+}
+
+.flex-view > .flex-extensible-fixed {
+  flex: 1 1 auto;
+  /* flex: 1 1; */
+}
+
+.flex-view > .flex-extensible {
+  flex: 1 1 auto;
+  /* flex: 1 1; */
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.flex-center {
+  align-items: center;
+  display: flex;
+}
+
+.main-commands {
+  flex: 1 1 auto;
+  font-size: 5rem;
+}
+.main-commands a {
+  font-size: 4rem;
+  display: block;
+  line-height: 4rem;
+  height: 4rem;
+  font-weight: bold;
+}
+.main-commands a .icon {
+  display: block;
+  margin: 0 auto;
+}
+.main-commands a .icon-arrow-down::before, .main-commands a .icon-arrow-up::before {
+  border-width: 0.6rem;
+  border-bottom: 0;
+  border-right: 0;
+}
+.main-controls {
+  margin: 1rem 0;
+}
+.main-controls .btn {
+  min-width: 6rem;
+  font-weight: bold;
+  margin: 0 0.5rem;
+}
