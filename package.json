@@ -3,19 +3,12 @@
   "version": "1.0.0",
   "description": "Control my thermostat",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dewep/MyThermostat.git"
   },
   "author": "Maigret Aurelien (Dewep)",
   "license": "SEE LICENSE IN LICENSE",
-  "bugs": {
-    "url": "https://github.com/Dewep/MyThermostat/issues"
-  },
-  "homepage": "https://github.com/Dewep/MyThermostat#readme",
   "dependencies": {
     "ewelink-api": "^1.10.0",
     "express": "^4.17.1",

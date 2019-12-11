@@ -5,10 +5,10 @@ module.exports = {
     region: 'eu'
   },
   increase: {
-    deviceid: '1000xxxxxx'
+    deviceId: '1000xxxxxx'
   },
   decrease: {
-    deviceid: '1000xxxxxy'
+    deviceId: '1000xxxxxy'
   },
   web: {
     trustProxy: true,
