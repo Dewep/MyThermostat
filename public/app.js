@@ -6,7 +6,7 @@ window.app = new Vue({
 
   data () {
     return {
-      password: '',
+      password: localStorage.password || '',
       passwordSet: false,
       error: null,
       setTemperature: 200,
@@ -38,6 +38,9 @@ window.app = new Vue({
     setTimeout(() => {
       document.body.classList.remove('initializing')
     }, 250)
+    if (this.password) {
+      this.refresh()
+    }
   },
 
   methods: {
@@ -69,6 +72,7 @@ window.app = new Vue({
 
         this.passwordSet = true
         console.log(result)
+        localStorage.password = this.password
 
         const calendarFormats = {
           lastDay : '[Yesterday at] H[h]mm',
@@ -93,6 +97,7 @@ window.app = new Vue({
       } catch (err) {
         console.warn(err)
         this.error = err.message
+        delete localStorage.password
       }
     },
 
