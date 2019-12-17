@@ -161,8 +161,8 @@ window.app = new Vue({
       const hours = Math.round(+promptHours)
       const minutes = Math.round(+promptMinutes)
       const temperature = Math.round(+promptTemperature * 10)
-      const programs = this.programs.map(program => ({ hours: program.hours, minutes: program.minutes, temperature: program.temperature }))
-      programs.push({ hours, minutes, temperature })
+      const programs = this.programs.map(program => ({ hours: program.hours, minutes: program.minutes, temperature: program.temperature, enabled: program.enabled }))
+      programs.push({ hours, minutes, temperature, enabled: true })
       programs.sort((a, b) => {
         if (a.hours !== b.hours) {
           return a.hours - b.hours
@@ -173,8 +173,14 @@ window.app = new Vue({
     },
 
     removeProgram (index) {
-      const programs = this.programs.map(program => ({ hours: program.hours, minutes: program.minutes, temperature: program.temperature }))
+      const programs = this.programs.map(program => ({ hours: program.hours, minutes: program.minutes, temperature: program.temperature, enabled: program.enabled }))
       programs.splice(index, 1)
+      this.refresh({ programs })
+    },
+
+    toggleProgram (index) {
+      const programs = this.programs.map(program => ({ hours: program.hours, minutes: program.minutes, temperature: program.temperature, enabled: program.enabled }))
+      programs[index].enabled = !programs[index].enabled
       this.refresh({ programs })
     }
   }

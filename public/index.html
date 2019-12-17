@@ -52,13 +52,18 @@
           </div>
         </div>
         <div class="flex-extensible p-2">
-          <p class="toast">Click on an program to remove it.</p>
           <div v-for="(program, $index) in programs" :key="'program-' + $index" class="btn-group btn-group-block mb-2">
-            <button class="btn btn-primary" @click.prevent="removeProgram($index)">
+            <label class="form-switch pr-0" @click.prevent="toggleProgram($index)">
+              <input :checked="program.enabled" type="checkbox"><i class="form-icon"></i>
+            </label>
+            <button class="btn btn-link" @click.prevent>
               {{ program.hours < 10 ? '0' : '' }}{{ program.hours }}h{{ program.minutes < 10 ? '0' : '' }}{{ program.minutes }}
               <small class="mx-2"> <i class="icon icon-forward"></i> </small>
               <b>{{ (program.temperature / 10).toFixed(1) }}°</b>
             </button>
+            <a class="px-2 py-1" @click.prevent="removeProgram($index)">
+              <i class="icon icon-cross"></i>
+            </a>
           </div>
         </div>
         <div class="flex-fixed">
